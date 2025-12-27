@@ -51,8 +51,19 @@
     "음력",
     "공휴일"
   ],
-  "author": "",
+  "author": "July249",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/July249/daymeta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/July249/daymeta/issues"
+  },
+  "homepage": "https://github.com/July249/daymeta#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
