@@ -1,6 +1,6 @@
 {
   "name": "daymeta",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Multi-country calendar intelligence library with lunar calendar, holidays, and special days support",
   "type": "module",
   "main": "./dist/index.cjs",
