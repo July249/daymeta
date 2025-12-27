@@ -1,0 +1,19 @@
+{
+  "schema": "kr.substitute.v1",
+  "eligible": [
+    { "id": "KR_SEOLLAL", "from": 2014 },
+    { "id": "KR_CHUSEOK", "from": 2014 },
+    { "id": "KR_CHILDREN", "from": 2014 },
+    { "id": "KR_SAMIL", "from": 2021 },
+    { "id": "KR_GWANGBOK", "from": 2021 },
+    { "id": "KR_GAECHUN", "from": 2021 },
+    { "id": "KR_HANGEUL", "from": 2021 },
+    { "id": "KR_BUDDHA", "from": 2023 },
+    { "id": "KR_CHRISTMAS", "from": 2023 }
+  ],
+  "rule": {
+    "ifOverlapsWeekend": true,
+    "ifOverlapsHoliday": true,
+    "nextNonHoliday": true
+  }
+}

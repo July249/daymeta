@@ -1,4 +1,4 @@
-import type { HolidayItem, SpecialItem, LunarDate, YMD } from "../types.js";
+import type { HolidayItem, LunarDate, SpecialItem, YMD } from "@/types";
 
 /**
  * Offline data structure
@@ -22,7 +22,9 @@ export async function loadOfflineData(): Promise<OfflineData> {
   try {
     // Try to import the offline data file
     // @ts-expect-error - JSON import may not exist
-    const data = await import("./offline-data.json", { assert: { type: "json" } });
+    const data = await import("./offline-data.json", {
+      assert: { type: "json" },
+    });
     cachedData = data.default || data;
   } catch (error) {
     console.warn("Offline data file not found. Using empty data structure.");

@@ -3,7 +3,8 @@ import { writeFileSync } from "fs";
 import { KasiClient } from "../src/kasi/client.js";
 import { splitHolidaysAndSpecials } from "../src/kr/mappers.js";
 import { getDatesInYear } from "../src/date/utils.js";
-import type { OfflineData, YMD, LunarDate } from "../src/data/loader.js";
+import type { OfflineData } from "../src/data/loader.js";
+import type { YMD, LunarDate } from "../src/types.js";
 
 const SERVICE_KEY = process.env.KASI_SERVICE_KEY;
 
