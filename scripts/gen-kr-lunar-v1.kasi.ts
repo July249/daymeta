@@ -18,12 +18,15 @@ import { getKasiLunCalInfo } from "../tests/helpers/kasi";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const SERVICE_KEY = process.env.KASI_SERVICE_KEY;
+const SERVICE_KEY_ENV = process.env.KASI_SERVICE_KEY;
 
-if (!SERVICE_KEY) {
+if (!SERVICE_KEY_ENV) {
   console.error("Error: KASI_SERVICE_KEY environment variable is required");
   process.exit(1);
 }
+
+// After the check above, SERVICE_KEY_ENV is guaranteed to be string
+const SERVICE_KEY: string = SERVICE_KEY_ENV;
 
 const START_YEAR = 1900;
 const END_YEAR = 2050;
@@ -172,11 +175,7 @@ async function generateYearRow(
     }
 
     // Check if this is the start of next lunar year
-    if (
-      info.lunYear === year + 1 &&
-      info.lunMonth === 1 &&
-      !info.isLeapMonth
-    ) {
+    if (info.lunYear === year + 1 && info.lunMonth === 1 && !info.isLeapMonth) {
       nextLnyDate = monthStart;
       console.log(`  Next LNY: ${nextLnyDate}`);
       break;

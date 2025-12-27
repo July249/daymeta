@@ -38,8 +38,10 @@ export {
   isWeekend,
   isLeapYear,
   daysInYear,
+  compareDate,
+  isSameDate,
 } from "./utils/civil-date.js";
+export type { CivilDate } from "./utils/civil-date.js";
 
-// Algorithm exports
-export { TableLunarAlgorithm } from "./algorithms/lunar/table.js";
-export type { LunarYearData } from "./algorithms/lunar/table.js";
+// NOTE: Algorithm abstractions (TableLunarAlgorithm, etc.) are implementation details
+// and NOT exported per v1.0 plan principle #2. Public API users get pre-configured providers.

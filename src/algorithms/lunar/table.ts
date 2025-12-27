@@ -198,41 +198,57 @@ export class TableLunarAlgorithm {
     const { ny, leap, mask } = row;
     const maskNum = parseInt(mask, 16);
 
-    // Map (month, isLeapMonth) to monthIndex
-    let monthIndex: number;
-
+    // Validate leap month input
     if (leap === 0) {
-      // No leap month
+      // No leap month this year
       if (isLeapMonth) {
         throw new Error(
           `Lunar year ${lunarYear} has no leap month, but isLeapMonth=true`,
         );
       }
-      monthIndex = month;
     } else {
       // Has leap month
-      if (isLeapMonth) {
-        if (month !== leap) {
-          throw new Error(
-            `Lunar year ${lunarYear} leap month is ${leap}, but got month=${month} with isLeapMonth=true`,
-          );
-        }
-        monthIndex = leap + 1;
-      } else {
-        if (month <= leap) {
-          monthIndex = month;
-        } else {
-          monthIndex = month + 1;
-        }
+      if (isLeapMonth && month !== leap) {
+        throw new Error(
+          `Lunar year ${lunarYear} leap month is ${leap}, but got month=${month} with isLeapMonth=true`,
+        );
       }
     }
 
     // Calculate days from lunar 1/1 to this date
     let daysSinceLunarNY = 0;
 
-    for (let i = 1; i < monthIndex; i++) {
-      const monthLen = 29 + ((maskNum >> (i - 1)) & 1);
+    // Iterate through actual lunar months (not monthIndex)
+    // We need to account for the leap month if it exists
+    for (let m = 1; m < month; m++) {
+      // Determine monthIndex for this month
+      let idx: number;
+      if (leap === 0) {
+        idx = m;
+      } else {
+        if (m <= leap) {
+          idx = m;
+        } else {
+          idx = m + 1;
+        }
+      }
+
+      const monthLen = 29 + ((maskNum >> (idx - 1)) & 1);
       daysSinceLunarNY += monthLen;
+
+      // If this is the leap month position, add the leap month too
+      if (leap > 0 && m === leap) {
+        const leapIdx = leap + 1;
+        const leapMonthLen = 29 + ((maskNum >> (leapIdx - 1)) & 1);
+        daysSinceLunarNY += leapMonthLen;
+      }
+    }
+
+    // If we're IN the leap month, add the regular month first
+    if (isLeapMonth && leap > 0 && month === leap) {
+      const regularIdx = leap;
+      const regularMonthLen = 29 + ((maskNum >> (regularIdx - 1)) & 1);
+      daysSinceLunarNY += regularMonthLen;
     }
 
     daysSinceLunarNY += day - 1; // 0-based offset

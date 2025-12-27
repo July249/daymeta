@@ -119,3 +119,23 @@ export function isWeekend(ymd: YMD): boolean {
   const dow = dayOfWeek(ymd);
   return dow === 0 || dow === 6;
 }
+
+/**
+ * Compare two YMD dates
+ * @param a - First date
+ * @param b - Second date
+ * @returns Negative if a < b, 0 if a === b, positive if a > b
+ */
+export function compareDate(a: YMD, b: YMD): number {
+  return a.localeCompare(b);
+}
+
+/**
+ * Check if two YMD dates are equal
+ * @param a - First date
+ * @param b - Second date
+ * @returns True if dates are equal
+ */
+export function isSameDate(a: YMD, b: YMD): boolean {
+  return a === b;
+}

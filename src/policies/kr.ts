@@ -38,6 +38,15 @@ export class KoreanSubstitutePolicy implements SubstituteHolidayPolicy {
     const substitutes: HolidayItem[] = [];
     const allHolidayDates = new Set(baseHolidays.map((h) => h.date));
 
+    // Group holidays by date to detect overlaps
+    const holidaysByDate = new Map<string, HolidayItem[]>();
+    for (const holiday of baseHolidays) {
+      if (!holidaysByDate.has(holiday.date)) {
+        holidaysByDate.set(holiday.date, []);
+      }
+      holidaysByDate.get(holiday.date)!.push(holiday);
+    }
+
     for (const holiday of baseHolidays) {
       // Check if eligible for substitute
       const fromYear = this.eligible.get(holiday.id);
@@ -45,32 +54,57 @@ export class KoreanSubstitutePolicy implements SubstituteHolidayPolicy {
         continue;
       }
 
-      // Only apply to "DAY" variant (not PRE/POST padding days)
-      if (holiday.variant !== "DAY") {
-        continue;
-      }
+      // Determine if this holiday needs a substitute
+      let needsSubstitute = false;
 
-      // Check if overlaps weekend or another holiday
       const dow = dayOfWeek(holiday.date);
       const isWeekend = dow === 0 || dow === 6;
 
-      if (!isWeekend) {
-        // Not a weekend, no substitute needed (unless overlaps with another holiday)
-        // For simplicity, we skip this case for now
-        // TODO: Handle holiday-on-holiday case if needed
+      // Rule 1: Check for weekend overlap
+      if (isWeekend && holiday.variant === "DAY") {
+        needsSubstitute = true;
+      }
+
+      // Rule 2: Check for holiday overlap (two different holidays on same date)
+      const sameDay = holidaysByDate.get(holiday.date) || [];
+      const hasOverlap = sameDay.length > 1;
+
+      if (hasOverlap) {
+        // Only create substitute for the second+ holiday on the same date
+        // (First holiday doesn't need substitute - it's the primary)
+        const isSecondary = sameDay.indexOf(holiday) > 0;
+        if (isSecondary && holiday.variant === "DAY") {
+          needsSubstitute = true;
+        }
+      }
+
+      // Rule 3: For Seollal/Chuseok: Check if ANY day in the 3-day range is Sunday
+      // This is a special rule for Korean multi-day holidays
+      if ((holiday.id === "KR_SEOLLAL" || holiday.id === "KR_CHUSEOK") && holiday.variant === "DAY") {
+        // Check PRE, DAY, POST for Sunday
+        const preDow = dayOfWeek(addDays(holiday.date, -1));
+        const dayDow = dayOfWeek(holiday.date);
+        const postDow = dayOfWeek(addDays(holiday.date, 1));
+
+        if (preDow === 0 || dayDow === 0 || postDow === 0) {
+          needsSubstitute = true;
+        }
+      }
+
+      if (!needsSubstitute) {
         continue;
       }
 
       // Find next non-holiday, non-weekend day
       let substituteDate = addDays(holiday.date, 1);
-      let maxAttempts = 7; // Safety limit
+      let maxAttempts = 10; // Increased safety limit
 
       while (maxAttempts > 0) {
         const dow = dayOfWeek(substituteDate);
-        const isWeekend = dow === 0 || dow === 6;
+        const isWeekendDay = dow === 0 || dow === 6;
         const isHoliday = allHolidayDates.has(substituteDate);
 
-        if (!isWeekend && !isHoliday) {
+        if (!isWeekendDay && !isHoliday) {
           // Found a valid substitute date
           substitutes.push({
             date: substituteDate,
@@ -92,7 +126,7 @@ export class KoreanSubstitutePolicy implements SubstituteHolidayPolicy {
 
       if (maxAttempts === 0) {
         console.warn(
-          `Failed to find substitute date for ${holiday.date} after 7 attempts`
+          `Failed to find substitute date for ${holiday.date} after 10 attempts`
         );
       }
     }
