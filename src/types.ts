@@ -33,8 +33,11 @@ export interface LunarDate {
  */
 export interface HolidayItem {
   date: YMD;
-  name: string;
+  id: string;
   kind: HolidayKind;
+  name: string;
+  nameEn?: string;
+  variant?: "PRE" | "DAY" | "POST";
   substituteFor?: YMD;
 }
 
@@ -60,22 +63,12 @@ export interface DayInfo {
 }
 
 /**
- * Options for getDayInfo
- */
-export interface GetDayInfoOptions {
-  serviceKey?: string;
-  useOfflineData?: boolean;
-}
-
-/**
  * Options for listHolidays
  */
 export interface ListHolidaysOptions {
   includeSubstitute?: boolean;
   includeSundays?: boolean;
-  extraHolidays?: { date: YMD; name: string; kind?: "TEMPORARY" }[];
-  serviceKey?: string;
-  useOfflineData?: boolean;
+  extraHolidays?: { date: YMD; id: string; name: string; kind: HolidayKind }[];
 }
 
 /**
@@ -84,14 +77,6 @@ export interface ListHolidaysOptions {
 export interface ListHolidaysResult {
   items: HolidayItem[];
   countExcludingSundays: number;
-}
-
-/**
- * Options for buildMonthGrid
- */
-export interface BuildMonthGridOptions {
-  serviceKey?: string;
-  useOfflineData?: boolean;
 }
 
 /**
@@ -105,6 +90,7 @@ export interface KasiLunarResponse {
   lunMonth: string;
   lunDay: string;
   lunLeapmonth: string;
+  lunNday?: string;
   lunSecha?: string;
   lunWolgeon?: string;
   lunIljin?: string;
