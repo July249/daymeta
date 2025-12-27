@@ -1,4 +1,4 @@
-import type { YMD } from "../types.js";
+import type { YMD } from "@/types";
 
 /**
  * Parse YMD string to Date object (assumes KST timezone conceptually)

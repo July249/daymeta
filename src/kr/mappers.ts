@@ -1,4 +1,4 @@
-import type { YMD, HolidayItem, SpecialItem, KasiSpecialDayResponse } from "../types.js";
+import type { HolidayItem, KasiSpecialDayResponse, SpecialItem, YMD } from "../types.js";
 
 /**
  * Map KASI special day response to HolidayItem or SpecialItem

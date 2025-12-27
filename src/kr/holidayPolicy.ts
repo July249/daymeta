@@ -1,5 +1,6 @@
-import type { HolidayItem } from "../types.js";
 import { addDays, getWeekday } from "../date/utils.js";
+
+import type { HolidayItem } from "../types.js";
 
 /**
  * Configuration for substitute holiday policy
@@ -81,8 +82,9 @@ export function calculateSubstituteHolidays(
         // Found a valid substitute date
         const substituteHoliday: HolidayItem = {
           date: candidateDate,
-          name: `${holiday.name} 대체공휴일`,
+          id: "KR_SUBSTITUTE",
           kind: "SUBSTITUTE",
+          name: `${holiday.name} 대체공휴일`,
           substituteFor: holiday.date,
         };
 

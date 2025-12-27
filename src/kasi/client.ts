@@ -1,4 +1,9 @@
-import type { YMD, LunarDate, KasiLunarResponse, KasiSpecialDayResponse } from "../types.js";
+import type {
+  KasiLunarResponse,
+  KasiSpecialDayResponse,
+  LunarDate,
+  YMD,
+} from "@/types";
 
 const KASI_BASE_URL = "http://apis.data.go.kr/B090041/openapi/service";
 
@@ -14,7 +19,7 @@ export class KasiClient {
    */
   async fetchLunar(date: YMD): Promise<LunarDate> {
     const [year, month, day] = date.split("-");
-    const url = new URL(`${KASI_BASE_URL}/SpcdeInfoService/getLunCalInfo`);
+    const url = new URL(`${KASI_BASE_URL}/LrsrCldInfoService/getLunCalInfo`);
     url.searchParams.set("serviceKey", this.serviceKey);
     url.searchParams.set("solYear", year);
     url.searchParams.set("solMonth", month);
@@ -23,7 +28,9 @@ export class KasiClient {
 
     const response = await fetch(url.toString());
     if (!response.ok) {
-      throw new Error(`KASI API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `KASI API error: ${response.status} ${response.statusText}`,
+      );
     }
 
     const data = (await response.json()) as any;
@@ -34,6 +41,35 @@ export class KasiClient {
     }
 
     return this.parseLunarResponse(item);
+  }
+
+  /**
+   * Fetch raw lunar calendar info (including lunNday)
+   */
+  async fetchLunarRaw(date: YMD): Promise<KasiLunarResponse> {
+    const [year, month, day] = date.split("-");
+    const url = new URL(`${KASI_BASE_URL}/LrsrCldInfoService/getLunCalInfo`);
+    url.searchParams.set("serviceKey", this.serviceKey);
+    url.searchParams.set("solYear", year);
+    url.searchParams.set("solMonth", month);
+    url.searchParams.set("solDay", day);
+    url.searchParams.set("_type", "json");
+
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      throw new Error(
+        `KASI API error: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const data = (await response.json()) as any;
+    const item = data.response?.body?.items?.item;
+
+    if (!item) {
+      throw new Error(`No lunar data found for ${date}`);
+    }
+
+    return item;
   }
 
   /**
@@ -48,7 +84,9 @@ export class KasiClient {
 
     const response = await fetch(url.toString());
     if (!response.ok) {
-      throw new Error(`KASI API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `KASI API error: ${response.status} ${response.statusText}`,
+      );
     }
 
     const data = (await response.json()) as any;
@@ -73,7 +111,9 @@ export class KasiClient {
 
     const response = await fetch(url.toString());
     if (!response.ok) {
-      throw new Error(`KASI API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `KASI API error: ${response.status} ${response.statusText}`,
+      );
     }
 
     const data = (await response.json()) as any;
