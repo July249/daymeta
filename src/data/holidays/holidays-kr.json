@@ -1,0 +1,136 @@
+{
+  "$schema": "./schema.json",
+  "country": "KR",
+  "countryName": "South Korea",
+  "holidays": [
+    {
+      "month": 1,
+      "day": 1,
+      "type": "solar",
+      "name": "신정",
+      "nameEn": "New Year's Day",
+      "kind": "STATUTORY",
+      "pad": 0
+    },
+    {
+      "month": 1,
+      "day": 1,
+      "type": "lunar",
+      "name": "설날",
+      "nameEn": "Lunar New Year",
+      "kind": "STATUTORY",
+      "pad": 1
+    },
+    {
+      "month": 3,
+      "day": 1,
+      "type": "solar",
+      "name": "삼일절",
+      "nameEn": "Independence Movement Day",
+      "kind": "STATUTORY",
+      "pad": 0
+    },
+    {
+      "month": 4,
+      "day": 8,
+      "type": "lunar",
+      "name": "부처님 오신 날",
+      "nameEn": "Buddha's Birthday",
+      "kind": "STATUTORY",
+      "pad": 0
+    },
+    {
+      "month": 5,
+      "day": 5,
+      "type": "solar",
+      "name": "어린이날",
+      "nameEn": "Children's Day",
+      "kind": "STATUTORY",
+      "pad": 0
+    },
+    {
+      "month": 6,
+      "day": 6,
+      "type": "solar",
+      "name": "현충일",
+      "nameEn": "Memorial Day",
+      "kind": "STATUTORY",
+      "pad": 0
+    },
+    {
+      "month": 8,
+      "day": 15,
+      "type": "solar",
+      "name": "광복절",
+      "nameEn": "Liberation Day",
+      "kind": "STATUTORY",
+      "pad": 0
+    },
+    {
+      "month": 8,
+      "day": 15,
+      "type": "lunar",
+      "name": "추석",
+      "nameEn": "Chuseok (Korean Thanksgiving)",
+      "kind": "STATUTORY",
+      "pad": 1
+    },
+    {
+      "month": 10,
+      "day": 3,
+      "type": "solar",
+      "name": "개천절",
+      "nameEn": "National Foundation Day",
+      "kind": "STATUTORY",
+      "pad": 0
+    },
+    {
+      "month": 10,
+      "day": 9,
+      "type": "solar",
+      "name": "한글날",
+      "nameEn": "Hangeul Day",
+      "kind": "STATUTORY",
+      "pad": 0
+    },
+    {
+      "month": 12,
+      "day": 25,
+      "type": "solar",
+      "name": "크리스마스",
+      "nameEn": "Christmas Day",
+      "kind": "STATUTORY",
+      "pad": 0
+    }
+  ],
+  "solarTerms": [
+    { "order": 1, "name": "입춘", "nameEn": "Start of Spring" },
+    { "order": 2, "name": "우수", "nameEn": "Rain Water" },
+    { "order": 3, "name": "경칩", "nameEn": "Awakening of Insects" },
+    { "order": 4, "name": "춘분", "nameEn": "Vernal Equinox" },
+    { "order": 5, "name": "청명", "nameEn": "Clear and Bright" },
+    { "order": 6, "name": "곡우", "nameEn": "Grain Rain" },
+    { "order": 7, "name": "입하", "nameEn": "Start of Summer" },
+    { "order": 8, "name": "소만", "nameEn": "Lesser Fullness of Grain" },
+    { "order": 9, "name": "망종", "nameEn": "Grain in Ear" },
+    { "order": 10, "name": "하지", "nameEn": "Summer Solstice" },
+    { "order": 11, "name": "소서", "nameEn": "Lesser Heat" },
+    { "order": 12, "name": "대서", "nameEn": "Greater Heat" },
+    { "order": 13, "name": "입추", "nameEn": "Start of Autumn" },
+    { "order": 14, "name": "처서", "nameEn": "End of Heat" },
+    { "order": 15, "name": "백로", "nameEn": "White Dew" },
+    { "order": 16, "name": "추분", "nameEn": "Autumnal Equinox" },
+    { "order": 17, "name": "한로", "nameEn": "Cold Dew" },
+    { "order": 18, "name": "상강", "nameEn": "Frost Descent" },
+    { "order": 19, "name": "입동", "nameEn": "Start of Winter" },
+    { "order": 20, "name": "소설", "nameEn": "Lesser Snow" },
+    { "order": 21, "name": "대설", "nameEn": "Greater Snow" },
+    { "order": 22, "name": "동지", "nameEn": "Winter Solstice" },
+    { "order": 23, "name": "소한", "nameEn": "Lesser Cold" },
+    { "order": 24, "name": "대한", "nameEn": "Greater Cold" }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "description": "Korean statutory holidays with recurring rules"
+  }
+}

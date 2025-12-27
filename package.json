@@ -1,0 +1,85 @@
+{
+  "name": "daymeta",
+  "version": "1.0.0",
+  "description": "Multi-country calendar intelligence library with lunar calendar, holidays, and special days support",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node build.js",
+    "test": "vitest run --config tests/vitest.config.ts",
+    "test:unit": "vitest run --config tests/vitest.config.ts tests/unit",
+    "test:integration": "vitest run --config tests/vitest.config.ts tests/integration",
+    "test:kasi": "KASI_COMPARE_N=300 vitest run --config tests/vitest.config.ts -t \"KASI compare\"",
+    "test:watch": "vitest --config tests/vitest.config.ts",
+    "lint": "eslint . --ext .ts && tsc --noEmit",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"**/*.{ts,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,json,md}\"",
+    "generate-data": "tsx scripts/generate-offline-data.ts",
+    "gen:lunar:kr:kasi": "tsx scripts/gen-kr-lunar-v1.kasi.ts",
+    "prepublishOnly": "npm run lint && npm run test && npm run build"
+  },
+  "keywords": [
+    "calendar",
+    "lunar",
+    "holiday",
+    "korea",
+    "japan",
+    "multi-country",
+    "date",
+    "solar-terms",
+    "24절기",
+    "음력",
+    "공휴일"
+  ],
+  "author": "July249",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/July249/daymeta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/July249/daymeta/issues"
+  },
+  "homepage": "https://github.com/July249/daymeta#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.68",
+    "@typescript-eslint/eslint-plugin": "^8.50.1",
+    "@typescript-eslint/parser": "^8.50.1",
+    "esbuild": "^0.24.2",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-unused-imports": "^4.3.0",
+    "fast-xml-parser": "^4.5.0",
+    "prettier": "^3.7.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
