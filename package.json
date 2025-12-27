@@ -1,6 +1,6 @@
 {
   "name": "daymeta",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Multi-country calendar intelligence library with lunar calendar, holidays, and special days support",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -71,6 +71,7 @@
     "@types/node": "^18.19.68",
     "@typescript-eslint/eslint-plugin": "^8.50.1",
     "@typescript-eslint/parser": "^8.50.1",
+    "dts-bundle-generator": "^9.5.1",
     "esbuild": "^0.24.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
