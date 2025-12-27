@@ -1,0 +1,82 @@
+{
+  "schema": "holiday.rules.v1",
+  "country": "KR",
+  "rules": [
+    {
+      "id": "KR_NEWYEAR",
+      "kind": "STATUTORY",
+      "names": { "ko": "신정", "en": "New Year's Day" },
+      "rule": { "type": "fixed_solar", "month": 1, "day": 1 }
+    },
+    {
+      "id": "KR_SEOLLAL",
+      "kind": "STATUTORY",
+      "names": { "ko": "설날", "en": "Seollal (Lunar New Year)" },
+      "rule": {
+        "type": "fixed_lunar",
+        "month": 1,
+        "day": 1,
+        "pad": { "before": 1, "after": 1 }
+      }
+    },
+    {
+      "id": "KR_SAMIL",
+      "kind": "STATUTORY",
+      "names": { "ko": "삼일절", "en": "Independence Movement Day" },
+      "rule": { "type": "fixed_solar", "month": 3, "day": 1 }
+    },
+    {
+      "id": "KR_BUDDHA",
+      "kind": "STATUTORY",
+      "names": { "ko": "부처님 오신 날", "en": "Buddha's Birthday" },
+      "rule": { "type": "fixed_lunar", "month": 4, "day": 8 }
+    },
+    {
+      "id": "KR_CHILDREN",
+      "kind": "STATUTORY",
+      "names": { "ko": "어린이날", "en": "Children's Day" },
+      "rule": { "type": "fixed_solar", "month": 5, "day": 5 }
+    },
+    {
+      "id": "KR_MEMORIAL",
+      "kind": "STATUTORY",
+      "names": { "ko": "현충일", "en": "Memorial Day" },
+      "rule": { "type": "fixed_solar", "month": 6, "day": 6 }
+    },
+    {
+      "id": "KR_GWANGBOK",
+      "kind": "STATUTORY",
+      "names": { "ko": "광복절", "en": "Liberation Day" },
+      "rule": { "type": "fixed_solar", "month": 8, "day": 15 }
+    },
+    {
+      "id": "KR_CHUSEOK",
+      "kind": "STATUTORY",
+      "names": { "ko": "추석", "en": "Chuseok (Korean Thanksgiving)" },
+      "rule": {
+        "type": "fixed_lunar",
+        "month": 8,
+        "day": 15,
+        "pad": { "before": 1, "after": 1 }
+      }
+    },
+    {
+      "id": "KR_GAECHUN",
+      "kind": "STATUTORY",
+      "names": { "ko": "개천절", "en": "National Foundation Day" },
+      "rule": { "type": "fixed_solar", "month": 10, "day": 3 }
+    },
+    {
+      "id": "KR_HANGEUL",
+      "kind": "STATUTORY",
+      "names": { "ko": "한글날", "en": "Hangeul Day" },
+      "rule": { "type": "fixed_solar", "month": 10, "day": 9 }
+    },
+    {
+      "id": "KR_CHRISTMAS",
+      "kind": "STATUTORY",
+      "names": { "ko": "크리스마스", "en": "Christmas Day" },
+      "rule": { "type": "fixed_solar", "month": 12, "day": 25 }
+    }
+  ]
+}
