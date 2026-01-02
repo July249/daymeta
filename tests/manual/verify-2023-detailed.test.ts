@@ -120,7 +120,9 @@ describe("2023년 음력 변환 상세 검증", () => {
 
       for (const test of tests) {
         const lunarToSolar = algorithm.lunarToSolar(test.lunar);
-        const solarToLunar = algorithm.solarToLunar(test.solar);
+        const solarToLunar = algorithm.solarToLunar(
+          test.solar as `${number}-${string}-${string}`,
+        );
 
         const lunarMatch = lunarToSolar === test.solar;
         const solarMatch =
