@@ -36,9 +36,13 @@ npm install daymeta
 특정 날짜의 모든 정보를 조회합니다:
 
 ```typescript
-import { getDayInfo } from "daymeta";
+import { createKoreanCalendar } from "daymeta";
 
-const info = await getDayInfo("2024-01-01");
+// 한국 달력 인스턴스 생성
+const calendar = await createKoreanCalendar();
+
+// 특정 날짜 정보 조회
+const info = await calendar.getDayInfo("2024-01-01");
 
 console.log(info);
 // {
@@ -67,10 +71,12 @@ console.log(info);
 특정 연도의 모든 공휴일을 조회합니다:
 
 ```typescript
-import { listHolidays } from "daymeta";
+import { createKoreanCalendar } from "daymeta";
+
+const calendar = await createKoreanCalendar();
 
 // 2024년 모든 공휴일 조회
-const result = await listHolidays(2024);
+const result = await calendar.listHolidays(2024);
 
 console.log(result.items);
 // [
@@ -90,8 +96,12 @@ console.log(result.countExcludingSundays);
 ### 옵션 사용
 
 ```typescript
+import { createKoreanCalendar } from "daymeta";
+
+const calendar = await createKoreanCalendar();
+
 // 대체공휴일 제외, 일요일 포함, 임시공휴일 추가
-const result = await listHolidays(2024, {
+const result = await calendar.listHolidays(2024, {
   includeSubstitute: false,     // 대체공휴일 제외
   includeSundays: true,          // 일요일과 겹치는 공휴일도 포함
   extraHolidays: [               // 임시공휴일 추가
@@ -109,10 +119,12 @@ const result = await listHolidays(2024, {
 UI에서 사용할 수 있는 월간 달력 그리드를 생성합니다 (6주 × 7일 = 42일):
 
 ```typescript
-import { buildMonthGrid } from "daymeta";
+import { createKoreanCalendar } from "daymeta";
+
+const calendar = await createKoreanCalendar();
 
 // 2024년 1월 달력 그리드 생성
-const grid = await buildMonthGrid(2024, 1);
+const grid = await calendar.buildMonthGrid(2024, 1);
 
 console.log(grid.length); // 42
 
@@ -135,27 +147,38 @@ grid.forEach((day, index) => {
 
 ### 오프라인 모드
 
-네트워크 없이 번들 데이터를 사용합니다:
+네트워크 없이 번들 데이터를 사용합니다 (기본값):
 
 ```typescript
-import { getDayInfo } from "daymeta";
+import { createKoreanCalendar } from "daymeta";
 
-const info = await getDayInfo("2024-01-01", {
-  useOfflineData: true  // 오프라인 데이터 사용
-});
+// createKoreanCalendar()는 기본적으로 오프라인 데이터를 사용합니다
+const calendar = await createKoreanCalendar();
+const info = await calendar.getDayInfo("2024-01-01");
 ```
 
 ## 공개 API
 
-### `getDayInfo(date, options?)`
+### `createKoreanCalendar()`
+
+한국 달력 인스턴스를 생성합니다. TableLunarProvider, JsonHolidayProvider, KoreanSubstitutePolicy가 미리 설정되어 있습니다.
+
+**반환값:**
+```typescript
+Promise<CalendarContext>
+```
+
+**사용 예시:**
+```typescript
+const calendar = await createKoreanCalendar();
+```
+
+### `CalendarContext.getDayInfo(date)`
 
 특정 날짜의 모든 정보를 조회합니다.
 
 **매개변수:**
 - `date` (string): `YYYY-MM-DD` 형식의 날짜 문자열 (KST 기준)
-- `options` (선택):
-  - `serviceKey` (string): KASI API 서비스 키
-  - `useOfflineData` (boolean): 오프라인 데이터 사용 여부
 
 **반환값:**
 ```typescript
@@ -191,7 +214,8 @@ const info = await getDayInfo("2024-01-01", {
 
 **사용 예시:**
 ```typescript
-const info = await getDayInfo("2025-10-06");
+const calendar = await createKoreanCalendar();
+const info = await calendar.getDayInfo("2025-10-06");
 // {
 //   date: "2025-10-06",
 //   weekday: 1,  // 월요일
@@ -211,7 +235,7 @@ const info = await getDayInfo("2025-10-06");
 // }
 ```
 
-### `listHolidays(year, options?)`
+### `CalendarContext.listHolidays(year, options?)`
 
 특정 연도의 모든 공휴일을 조회합니다.
 
@@ -221,8 +245,6 @@ const info = await getDayInfo("2025-10-06");
   - `includeSubstitute` (boolean): 대체공휴일 포함 여부 (기본값: `true`)
   - `includeSundays` (boolean): 일요일과 겹치는 공휴일 포함 여부 (기본값: `false`)
   - `extraHolidays` (Array): 추가할 임시공휴일 목록
-  - `serviceKey` (string): KASI API 서비스 키
-  - `useOfflineData` (boolean): 오프라인 데이터 사용 여부
 
 **반환값:**
 ```typescript
@@ -234,7 +256,8 @@ const info = await getDayInfo("2025-10-06");
 
 **사용 예시:**
 ```typescript
-const result = await listHolidays(2025, {
+const calendar = await createKoreanCalendar();
+const result = await calendar.listHolidays(2025, {
   includeSubstitute: true,
   extraHolidays: [
     {
@@ -259,16 +282,13 @@ const result = await listHolidays(2025, {
 // result.countExcludingSundays: 18
 ```
 
-### `buildMonthGrid(year, month, options?)`
+### `CalendarContext.buildMonthGrid(year, month)`
 
 UI용 월간 달력 그리드를 생성합니다 (6주 × 7일 = 42일).
 
 **매개변수:**
 - `year` (number): 연도
 - `month` (number): 월 (1~12)
-- `options` (선택):
-  - `serviceKey` (string): KASI API 서비스 키
-  - `useOfflineData` (boolean): 오프라인 데이터 사용 여부
 
 **반환값:**
 ```typescript
@@ -277,7 +297,8 @@ Array<DayInfo>  // 42개의 DayInfo 객체 배열
 
 **사용 예시:**
 ```typescript
-const grid = await buildMonthGrid(2025, 1);  // 2025년 1월
+const calendar = await createKoreanCalendar();
+const grid = await calendar.buildMonthGrid(2025, 1);  // 2025년 1월
 
 // 첫 번째 날 (전달의 마지막 주 포함)
 console.log(grid[0]);
@@ -483,16 +504,15 @@ const info = await getDayInfo("2024-01-01", {
 - **API 제한**: KASI API는 사용량 제한이 있으므로 프로덕션에서는 오프라인 모드 권장
 - **런타임 의존성**: 제로! KASI API는 개발/테스트 시에만 사용됩니다
 
-## 알려진 이슈 및 해결
+## 변경 이력
 
-### 2023년 추석 날짜 수정 (v0.1.1)
+프로젝트의 주요 변경사항과 버그 수정 내역은 [CHANGELOG.md](CHANGELOG.md)를 참조하세요.
 
-2023년 음력 데이터의 mask 값 오류로 인해 추석 날짜가 하루 늦게 계산되는 문제가 있었습니다:
-- **문제**: 음력 2023년 8월 15일이 양력 9월 30일로 계산됨 (정답: 9월 29일)
-- **원인**: `kr.lunar.v1.json`의 2023년 mask 값이 `0xAD6`로 음력 6월을 30일로 계산 (정답: 29일)
-- **수정**: mask 값을 `0xA96`으로 변경하여 음력 6월을 29일로 수정
-
-음력 변환 오류 발견 시 해당 연도의 mask 값을 확인하세요.
+**최근 주요 업데이트**:
+- ✅ 모든 윤년 데이터 (1900-2050, 56개 연도) KASI API로 재생성 완료
+- ✅ 음력 변환 검증 로직 추가 (잘못된 날짜 입력 시 에러 발생)
+- ✅ 2023년 음력 데이터 정확성 검증 완료 (설날: 1/22, 추석: 9/29)
+- ✅ 전체 테스트 스위트 통과 (556개 테스트)
 
 ## 향후 계획
 

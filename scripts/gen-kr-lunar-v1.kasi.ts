@@ -198,14 +198,24 @@ async function generateYearRow(
   }
 
   // Build mask
+  // Important: bitIndex must account for leap month position
   let mask = 0;
+  let bitIndex = 0;
+
   for (let m = 1; m <= 12; m++) {
+    // Set bit for regular month m
     if (monthLens[m] === 30) {
-      mask |= 1 << (m - 1);
+      mask |= 1 << bitIndex;
     }
-  }
-  if (leap > 0 && leapLen === 30) {
-    mask |= 1 << 12;
+    bitIndex++;
+
+    // If this is the leap month position, add leap month bit
+    if (m === leap && leap > 0) {
+      if (leapLen === 30) {
+        mask |= 1 << bitIndex;
+      }
+      bitIndex++;
+    }
   }
 
   const row: YearRow = {

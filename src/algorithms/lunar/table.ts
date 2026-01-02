@@ -218,6 +218,27 @@ export class TableLunarAlgorithm {
     // Calculate days from lunar 1/1 to this date
     let daysSinceLunarNY = 0;
 
+    // First, validate the day against the month length
+    let currentMonthIdx: number;
+    if (leap === 0) {
+      currentMonthIdx = month;
+    } else {
+      if (isLeapMonth) {
+        currentMonthIdx = leap + 1;
+      } else if (month <= leap) {
+        currentMonthIdx = month;
+      } else {
+        currentMonthIdx = month + 1;
+      }
+    }
+
+    const currentMonthLen = 29 + ((maskNum >> (currentMonthIdx - 1)) & 1);
+    if (day < 1 || day > currentMonthLen) {
+      throw new Error(
+        `Invalid lunar day: ${day}. Month ${month}${isLeapMonth ? " (leap)" : ""} in year ${lunarYear} has ${currentMonthLen} days`,
+      );
+    }
+
     // Iterate through actual lunar months (not monthIndex)
     // We need to account for the leap month if it exists
     for (let m = 1; m < month; m++) {
